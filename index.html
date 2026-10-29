@@ -7,51 +7,35 @@
   <meta name="description" content="Edward Shirley — MSc Computational Finance at UCL. Quantitative finance, machine learning and trading competitions.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="stars"></div>
-  <div id="stars2"></div>
-  <svg class="whale" viewBox="0 0 400 200" aria-hidden="true">
-    <defs>
-      <linearGradient id="whaleGrad" x1="0" x2="1">
-        <stop offset="0" stop-color="#c4b5fd"/>
-        <stop offset="1" stop-color="#99f6e4"/>
-      </linearGradient>
-    </defs>
-    <path fill="url(#whaleGrad)" d="M20 110c20-45 85-72 160-68 70 4 120 30 150 62 10-14 28-34 52-38-8 18-12 34-10 50 6 14 18 28 26 44-26-2-46-14-60-26-30 28-82 46-150 44C108 176 44 156 20 110zm96-12a7 7 0 1 0 0-14 7 7 0 0 0 0 14z"/>
-    <path fill="none" stroke="url(#whaleGrad)" stroke-width="3" stroke-linecap="round" d="M60 132c40 16 100 20 150 12"/>
-  </svg>
-  <canvas id="trail"></canvas>
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <canvas id="trail" aria-hidden="true"></canvas>
 
   <header class="site-header">
     <nav class="wrap nav">
       <a href="#" class="logo">ES</a>
       <ul>
-        <li><a href="#about">About</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#education">Education</a></li>
+        <li><a href="https://x.com/egshirley" target="_blank" rel="noopener">Blog</a></li>
         <li><a href="cv.pdf" class="btn-sm">CV</a></li>
       </ul>
     </nav>
   </header>
 
   <main class="wrap">
-    <section class="hero" id="about">
+    <section class="hero">
       <p class="eyebrow">London · MSc Computational Finance, UCL</p>
       <h1>Edward Shirley</h1>
-      <p class="lede">
-        I build quantitative models and trading systems — from stochastic calculus and numerical
-        methods to machine learning on real market data. First-class Accounting &amp; Finance graduate
-        from Exeter, now studying Computational Finance at UCL.
-      </p>
       <div class="links">
-        <a class="btn" href="mailto:edwardgshirley@gmail.com">Email me</a>
+        <a class="btn" href="cv.pdf">Download CV</a>
+        <a class="btn ghost" href="https://x.com/egshirley" target="_blank" rel="noopener">Blog on X</a>
         <a class="btn ghost" href="https://github.com/Edgshirley" target="_blank" rel="noopener">GitHub</a>
         <a class="btn ghost" href="https://www.linkedin.com/in/edward-shirley-941096283/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn ghost" href="cv.pdf">Download CV</a>
       </div>
     </section>
 
@@ -90,6 +74,7 @@
           <ul class="chips"><li>scikit-learn</li><li>Time series</li><li>Macro</li></ul>
         </article>
       </div>
+      <p class="more">Write-ups on projects and competitions → <a href="https://x.com/egshirley" target="_blank" rel="noopener">@egshirley on X</a></p>
     </section>
 
     <section id="experience">
@@ -165,48 +150,14 @@
   </main>
 
   <footer class="wrap footer">
-    <p>© 2026 Edward Shirley · <a href="mailto:edwardgshirley@gmail.com">edwardgshirley@gmail.com</a></p>
+    <p>© 2026 Edward Shirley ·
+      <a href="https://x.com/egshirley" target="_blank" rel="noopener">X</a> ·
+      <a href="https://github.com/Edgshirley" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://www.linkedin.com/in/edward-shirley-941096283/" target="_blank" rel="noopener">LinkedIn</a>
+    </p>
   </footer>
+  <div class="seabed" aria-hidden="true"></div>
 
-  <script>
-    // Soft fading cursor trail (disabled for reduced motion and touch devices)
-    (function () {
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches || !matchMedia('(pointer: fine)').matches) return;
-      const canvas = document.getElementById('trail');
-      const ctx = canvas.getContext('2d');
-      const colors = ['196,181,253', '153,246,228', '165,200,255'];
-      const life = 28;
-      let points = [];
-
-      function resize() {
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = innerWidth * dpr;
-        canvas.height = innerHeight * dpr;
-        canvas.style.width = innerWidth + 'px';
-        canvas.style.height = innerHeight + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-      resize();
-      addEventListener('resize', resize);
-      addEventListener('mousemove', e => {
-        points.push({ x: e.clientX, y: e.clientY, age: 0, c: colors[points.length % colors.length] });
-        if (points.length > 30) points.shift();
-      });
-
-      function draw() {
-        ctx.clearRect(0, 0, innerWidth, innerHeight);
-        points = points.filter(p => ++p.age < life);
-        for (const p of points) {
-          const a = 1 - p.age / life;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, 5 * a, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${p.c}, ${a * 0.7})`;
-          ctx.fill();
-        }
-        requestAnimationFrame(draw);
-      }
-      draw();
-    })();
-  </script>
+  <script src="scene.js"></script>
 </body>
 </html>
