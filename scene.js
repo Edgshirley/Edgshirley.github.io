@@ -181,6 +181,99 @@
     return R;
   }
 
+  // ---------- cargo hauler ----------
+  // Faces right: main engines on the left edge (rows 3-4), long white cargo hull with panel lines,
+  // armoured forward section with glowing thruster nozzles, small green skid underneath
+  const HAULER = [
+    '............KKKKK...',
+    '.KKRKKKKKKKKKtttOK..',
+    'KGWWWWpWWWWpWOOOOOK.',
+    'EGWbbWpWbbWpWOoOOOKN',
+    'EGwwwwpwwwwpwOOOOOK.',
+    'KKKKKKKKKKKKKooooOKN',
+    '.............KggK...',
+  ];
+  const HAUL_PIVOT = 4;    // sprite row whose top edge is the engine centreline
+  const HC = {
+    K: [40, 46, 62], G: [84, 90, 106], W: [234, 232, 224], w: [196, 194, 186],
+    p: [164, 164, 162], b: [214, 200, 170], g: [56, 112, 70],
+  };
+  const LIVERY = [
+    { O: [232, 128, 58], o: [176, 92, 44], t: [246, 190, 120] },  // orange
+    { O: [46, 96, 60], o: [30, 64, 40], t: [84, 136, 90] },        // dark green
+  ];
+  const HAUL_SLOPES = [0, 0.3, -0.3, 0.55, -0.55]; // flat or diagonal, rising or falling
+  const HAUL_F = 0.3;      // parallax layer it flies on
+  const HAUL_TRAIL = 1.8;  // seconds of exhaust left behind
+  let hauler = null, nextHauler = 6 + Math.random() * 6;
+
+  function updateHauler(si) {
+    if (hauler && time - hauler.t0 > hauler.dur + HAUL_TRAIL) {
+      hauler = null;
+      nextHauler = time + 25 + Math.random() * 35;
+    }
+    if (hauler || time < nextHauler) return;
+    const skyBottom = Math.min(H, WL - si - 30); // keep it above the water
+    if (skyBottom < 40) { nextHauler = time + 5; return; }
+    const pick = a => a[(Math.random() * a.length) | 0];
+    const speed = 51 + Math.random() * 18;
+    const slope = pick(HAUL_SLOPES), dx = W + 60, dy = slope * dx;
+    // Aim the middle of the run at the visible sky, so diagonals cross the screen
+    const mid = 10 + Math.random() * (skyBottom * 0.6);
+    hauler = {
+      t0: time, speed, dur: Math.hypot(dx, dy) / speed,
+      x0: -30, x1: W + 30,
+      y: mid - dy / 2 + si * HAUL_F, dy,
+      drop: 4 + Math.random() * 8, seed: Math.random() * 100,
+      col: { ...HC, ...pick(LIVERY) },
+    };
+  }
+
+  function drawHauler(si, put) {
+    const h = hauler, now = time - h.t0;
+    // Gentle downward arc, so the exhaust curves away to the upper left
+    const pos = age => {
+      const p = (now - age) / h.dur;
+      return [h.x0 + (h.x1 - h.x0) * p, h.y + h.dy * p + h.drop * (1 - (1 - p) * (1 - p)) - si * HAUL_F];
+    };
+
+    const step = 0.5 / h.speed;
+    for (let a = 0.03; a < HAUL_TRAIL && now - a > 0; a += step) {
+      const [x, y] = pos(a);
+      const k = a / HAUL_TRAIL, fade = Math.pow(1 - k, 1.6);
+      const c = k < 0.1 ? [255, 226, 150] : k < 0.45 ? [255, 150, 64] : [214, 86, 44];
+      const yy = Math.round(y + Math.sin(a * 23 + h.seed) * k * 1.6);
+      put(x, yy, c, 0.85 * fade);
+      if (k < 0.1) put(x, yy - 1, c, 0.85 * fade);
+    }
+
+    if (now > h.dur) return;
+    const [x, y] = pos(0);
+    const flick = ((time * 12) | 0) % 2;
+    const col = {
+      ...h.col,
+      E: flick ? [255, 170, 60] : [255, 224, 140],
+      N: flick ? [255, 224, 140] : [255, 150, 50],
+      R: (time * 1.4) % 1 < 0.18 ? [255, 70, 60] : HC.K,
+    };
+
+    // Point the sprite along the direction of travel (snapped to 5° so it doesn't shimmer),
+    // rotating about the engine centreline and sampling nearest-neighbour to keep hard pixels
+    const p = now / h.dur;
+    const step5 = Math.PI / 36;
+    const ang = Math.round(Math.atan2(h.dy + 2 * h.drop * (1 - p), h.x1 - h.x0) / step5) * step5;
+    const cs = Math.cos(ang), sn = Math.sin(ang);
+    const cx = x + 1, cy = Math.round(y), R = HAULER[0].length + 2;
+    for (let Y = cy - R; Y <= cy + R; Y++) {
+      for (let X = Math.floor(cx) - R; X <= cx + R; X++) {
+        const dx = X + 0.5 - cx, dy = Y + 0.5 - cy;
+        const u = Math.floor(dx * cs + dy * sn), v = Math.floor(HAUL_PIVOT - dx * sn + dy * cs);
+        const ch = HAULER[v] && HAULER[v][u];
+        if (ch && ch !== '.') put(X, Y, col[ch], 1);
+      }
+    }
+  }
+
   // ---------- build (on load and resize) ----------
   function build() {
     W = Math.ceil(innerWidth / P);
@@ -280,6 +373,7 @@
   // ---------- draw ----------
   function draw() {
     const sy = scrollY / P, si = Math.floor(sy);
+    if (!reduceMotion) updateHauler(si);
     canvas.style.transform = `translateY(${-(sy - si) * P}px)`;
 
     // Background gradient + light rays in the water
@@ -337,6 +431,7 @@
           drawBits(b.s, b.x, oy, [170, 215, 255], a);
         }
       }
+      if (hauler) drawHauler(si, skyPx);
     }
 
     // Water surface
