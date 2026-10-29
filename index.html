@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edward Shirley</title>
+  <meta name="description" content="Edward Shirley — MSc Computational Finance at UCL. Quantitative finance, machine learning and trading competitions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="wrap nav">
+      <a href="#" class="logo">ES</a>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="cv.pdf" class="btn-sm">CV</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" id="about">
+      <p class="eyebrow">London · MSc Computational Finance, UCL</p>
+      <h1>Edward Shirley</h1>
+      <p class="lede">
+        I build quantitative models and trading systems — from stochastic calculus and numerical
+        methods to machine learning on real market data. First-class Accounting &amp; Finance graduate
+        from Exeter, now studying Computational Finance at UCL.
+      </p>
+      <div class="links">
+        <a class="btn" href="mailto:edwardgshirley@gmail.com">Email me</a>
+        <a class="btn ghost" href="https://github.com/Edgshirley" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/edward-shirley-941096283/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn ghost" href="cv.pdf">Download CV</a>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>Projects &amp; Competitions</h2>
+      <div class="cards">
+        <article class="card">
+          <div class="card-head">
+            <h3>IMC Prosperity IV</h3>
+            <span class="date">Apr 2026</span>
+          </div>
+          <p class="tag">Solo · ~18,000 participants</p>
+          <p class="highlight">Joint 1st worldwide — Round 1 manual auction challenge</p>
+          <p>Built a custom object-oriented log-file parser with visual analytics. Identified and exploited a pair of offsetting bots posting orders several standard deviations from fair value.</p>
+          <ul class="chips"><li>Python</li><li>Market microstructure</li><li>OOP</li></ul>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h3>Fullhouse Hackathon</h3>
+            <span class="date">Jun 2026</span>
+          </div>
+          <p class="tag">Adaptive poker bot</p>
+          <p>Gradient-boosting opponent modelling combined with iterative self-play strategy refinement, inspired by AlphaGo's training pipeline — accounting for both board state and individual player behaviour.</p>
+          <ul class="chips"><li>Gradient boosting</li><li>Self-play</li><li>Game theory</li></ul>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h3>US CPI Forecasting</h3>
+            <span class="date">Dec 2025 – Jan 2026</span>
+          </div>
+          <p class="tag">FRED-MD · 1959–2025 monthly panel</p>
+          <p class="highlight">Elastic Net / Lasso beat baseline by ~23% MSE</p>
+          <p>Compared 12 models with strict avoidance of temporal leakage. Regularised models selected 13–14 features; tree models matched average error but collapsed in volatile periods by anchoring to the training mean.</p>
+          <ul class="chips"><li>scikit-learn</li><li>Time series</li><li>Macro</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience">
+      <h2>Experience</h2>
+      <div class="timeline">
+        <div class="item">
+          <div class="item-head">
+            <h3>Summer Analyst — Broad Reach Investment Management</h3>
+            <span class="date">Jul 2025</span>
+          </div>
+          <p class="tag">EM macro hedge fund, $2.6bn AUM · London</p>
+          <ul>
+            <li>Developed a momentum-based trading strategy using moving-average derivatives to identify trend reversals; approach validated by the quant team independently developing a similar methodology.</li>
+            <li>Analysed monetary policy, growth outlook and inflation to assess opportunities in the firm's EM portfolio.</li>
+          </ul>
+        </div>
+        <div class="item">
+          <div class="item-head">
+            <h3>Volunteer — Marine Conservation Society</h3>
+            <span class="date">Summers 2025 – 2026</span>
+          </div>
+          <p class="tag">Bridport, Dorset</p>
+          <ul><li>Documented marine species and coastal habitats to support conservation research along Lyme Bay.</li></ul>
+        </div>
+        <div class="item">
+          <div class="item-head">
+            <h3>Sailing Instructor — Sutton Bingham Sailing Club</h3>
+            <span class="date">2017 – 2023</span>
+          </div>
+          <ul><li>Led a team of instructors teaching students.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <h2>Education</h2>
+      <div class="timeline">
+        <div class="item">
+          <div class="item-head">
+            <h3>University College London — MSc Computational Finance</h3>
+            <span class="date">2026 – 2027</span>
+          </div>
+          <p>Stochastic Processes · Numerical Methods for Finance · Advanced ML in Finance · Applied Computational Finance · Research Computing with C++ · Financial Engineering</p>
+        </div>
+        <div class="item">
+          <div class="item-head">
+            <h3>University of Exeter — BSc Accounting &amp; Finance</h3>
+            <span class="date">2023 – 2026</span>
+          </div>
+          <p class="highlight">First Class Honours · Dean's Commendation (Years 2 &amp; 3)</p>
+          <p>Advanced Mathematics for Economists (84%) · Machine Learning for Economics (84%) · Futures &amp; Options (72%)</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2>Skills &amp; Interests</h2>
+      <div class="skills">
+        <div>
+          <h3>Programming</h3>
+          <ul class="chips"><li>Python</li><li>NumPy</li><li>pandas</li><li>scikit-learn</li><li>matplotlib</li><li>C++</li></ul>
+        </div>
+        <div>
+          <h3>Mathematics</h3>
+          <ul class="chips"><li>Linear Algebra</li><li>Probability Theory</li><li>Real Analysis</li><li>Stochastic Calculus</li></ul>
+        </div>
+        <div>
+          <h3>Outside work</h3>
+          <ul class="chips"><li>Scuba diving</li><li>Free diving</li><li>Sailing</li><li>UCL AI Society</li><li>UCL Poker Society</li></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <p>© 2026 Edward Shirley · <a href="mailto:edwardgshirley@gmail.com">edwardgshirley@gmail.com</a></p>
+  </footer>
+</body>
+</html>
