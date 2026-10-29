@@ -205,12 +205,12 @@
   const HAUL_SLOPES = [0, 0.3, -0.3, 0.55, -0.55]; // flat or diagonal, rising or falling
   const HAUL_F = 0.3;      // parallax layer it flies on
   const HAUL_TRAIL = 1.8;  // seconds of exhaust left behind
-  let hauler = null, nextHauler = 6 + Math.random() * 6;
+  let hauler = null, nextHauler = 3 + Math.random() * 3;
 
   function updateHauler(si) {
     if (hauler && time - hauler.t0 > hauler.dur + HAUL_TRAIL) {
       hauler = null;
-      nextHauler = time + 25 + Math.random() * 35;
+      nextHauler = time + 8 + Math.random() * 10;
     }
     if (hauler || time < nextHauler) return;
     const skyBottom = Math.min(H, WL - si - 30); // keep it above the water
