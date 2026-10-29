@@ -53,7 +53,7 @@
   }
 
   // Render text with the browser, then threshold it into hard pixels
-  function textBitmap(segs) {
+  function textBitmap(segs, cut = 110) {
     const c = document.createElement('canvas');
     c.width = 900; c.height = 60;
     const g = c.getContext('2d');
@@ -69,7 +69,7 @@
     let minX = 1e9, minY = 1e9, maxX = 0, maxY = 0;
     for (let y = 0; y < c.height; y++) {
       for (let xx = 0; xx < c.width; xx++) {
-        if (d[(y * c.width + xx) * 4 + 3] > 110) {
+        if (d[(y * c.width + xx) * 4 + 3] > cut) {
           pts.push([xx, y]);
           if (xx < minX) minX = xx; if (xx > maxX) maxX = xx;
           if (y < minY) minY = y; if (y > maxY) maxY = y;
@@ -82,6 +82,10 @@
   const ito = s => {
     const sub = ['t', s * 0.65, s * 0.25];
     return [['df(W', s, 0], sub, [') = f′(W', s, 0], sub, [')dW', s, 0], sub, [' + ½f″(W', s, 0], sub, [')dt', s, 0]];
+  };
+  const blackScholes = s => {
+    const sub = n => [n, s * 0.65, s * 0.25];
+    return [['C = SN(d', s, 0], sub('1'), [') − Ke', s, 0], ['−rT', s * 0.65, -s * 0.45], ['N(d', s, 0], sub('2'), [')', s, 0]];
   };
 
   // 3x5 pixel digits for the binary
@@ -241,12 +245,13 @@
     }
 
     // Formulas and binary
-    const S = W < 240 ? 11 : 15;
-    const eb = textBitmap(euler(S)), ib = textBitmap(ito(S));
+    const S = W < 240 ? 11 : 15, s = W < 240 ? 8 : 9;
+    const eb = textBitmap(euler(S)), ib = textBitmap(ito(s), 80), bb = textBitmap(blackScholes(s), 80);
     const fitX = (x, b) => Math.max(2, Math.min(Math.round(x), W - b.w - 2));
     spaceText = [
       { b: eb, f: 0.3, x: fitX(W * 0.7, eb), y: H * 0.1 },
       { b: ib, f: 0.3, x: fitX(W * 0.06, ib), y: H * 1.25 },
+      { b: bb, f: 0.3, x: fitX(W * 0.6, bb), y: H * 1.9 },
     ];
     spaceBits = [];
     const BITS = ['1', '0', '10', '01', '101', '1001', '110', '0110'];
@@ -258,6 +263,7 @@
     const oceanH = reefTop - WL;
     oceanText = [
       { b: ib, x: fitX(W * 0.52, ib), y: WL + oceanH * 0.22 },
+      { b: bb, x: fitX(W * 0.1, bb), y: WL + oceanH * 0.4 },
       { b: eb, x: fitX(W * 0.08, eb), y: WL + oceanH * 0.6 },
     ];
     oceanBits = [];
@@ -414,6 +420,7 @@
   function sizeTrail() {
     const dpr = devicePixelRatio || 1;
     tc.width = innerWidth * dpr; tc.height = innerHeight * dpr;
+    tc.style.width = innerWidth + 'px'; tc.style.height = innerHeight + 'px';
     g.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   sizeTrail();

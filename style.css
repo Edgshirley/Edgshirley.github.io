@@ -58,10 +58,9 @@ a:hover { text-decoration: underline; }
 .hero { min-height: 62vh; display: flex; flex-direction: column; justify-content: center; padding: 72px 0; }
 .eyebrow { font-family: var(--mono); font-size: 13px; color: var(--accent2); margin: 0 0 18px; }
 h1 {
-  font-family: var(--pixel); font-weight: 400;
-  font-size: clamp(26px, 5.5vw, 48px); line-height: 1.25; letter-spacing: -0.01em;
+  font-weight: 700;
+  font-size: clamp(42px, 7vw, 68px); line-height: 1.05; letter-spacing: -0.035em;
   margin: 0 0 32px;
-  text-shadow: 3px 3px 0 rgba(14, 116, 144, 0.55);
 }
 .links { display: flex; flex-wrap: wrap; gap: 10px; }
 .btn {
