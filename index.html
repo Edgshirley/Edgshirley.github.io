@@ -44,6 +44,17 @@
       <div class="cards">
         <article class="card">
           <div class="card-head">
+            <h3>Cambridge Battlecode</h3>
+            <span class="date">Oct – Nov 2026</span>
+          </div>
+          <p class="tag">Team · sponsored by Hudson River Trading · 800+ teams</p>
+          <p class="highlight">Peak position 5th in the UK</p>
+          <p>Month-long C++ competition focused on strategy, simulation and iterative bot refinement.</p>
+          <ul class="chips"><li>C++</li><li>Simulation</li><li>Game AI</li></ul>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
             <h3>IMC Prosperity IV</h3>
             <span class="date">Apr 2026</span>
           </div>
@@ -65,12 +76,22 @@
 
         <article class="card">
           <div class="card-head">
+            <h3>Market-Mate</h3>
+            <span class="date">Nov 2026</span>
+          </div>
+          <p class="tag">Team · Agentverse hackathon · sponsored by Google DeepMind &amp; Jane Street</p>
+          <p>A real-time social prediction market that turns group-chat bets into a live order book, with multi-agent intake and a deterministic zero-sum engine. Friends bid a window's width down, the tightest bidder becomes market maker, and a Gemini-powered dealer drafts, prices and settles bets from real-world results. <a href="https://github.com/Edgshirley/Agentverse_2026" target="_blank" rel="noopener">View the repo on GitHub →</a></p>
+          <ul class="chips"><li>TypeScript</li><li>React</li><li>FastAPI</li><li>Gemini</li><li>Multi-agent</li></ul>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
             <h3>US CPI Forecasting</h3>
             <span class="date">Dec 2025 – Jan 2026</span>
           </div>
           <p class="tag">FRED-MD · 1959–2025 monthly panel</p>
-          <p class="highlight">Elastic Net / Lasso beat baseline by ~23% MSE</p>
-          <p>Compared 12 models with strict avoidance of temporal leakage. Regularised models selected 13–14 features; tree models matched average error but collapsed in volatile periods by anchoring to the training mean.</p>
+          <p>Built a walk-forward backtest on the FRED-MD macro panel comparing 12 models for US CPI inflation forecasting; Elastic Net delivered the lowest out-of-sample error while selecting a sparse set of predictors.</p>
+          <p>Showed tree ensembles matched linear models on average but failed in high-volatility regimes because they can’t extrapolate beyond the training range, which argues for regularised linear models under regime shifts.</p>
           <ul class="chips"><li>scikit-learn</li><li>Time series</li><li>Macro</li></ul>
         </article>
       </div>
